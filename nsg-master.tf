@@ -1,18 +1,16 @@
 # Master Security Groups for NICs
-resource "azurerm_network_security_group" "master_security_group" {
-  count               = "${dcos_role == "master" ? 1 : 0 }"
-  name                = "${data.template_file.cluster-name.rendered}-master-security-group"
-  location            = "${var.azure_region}"
-  resource_group_name = "${azurerm_resource_group.dcos.name}"
+resource "azurerm_network_security_group" "master" {
+  count               = "${var.dcos_role == "master" ? 1 : 0 }"
+  name                = "${format(var.hostname_format, count.index + 1, var.name_prefix)}-master-security-group"
+  location            = "${var.location}"
+  resource_group_name = "${var.resource_group_name}"
 
-  tags {
-    Name       = "${coalesce(var.owner, data.external.whoami.result["owner"])}"
-    expiration = "${var.expiration}"
-  }
+  tags = "${merge(var.tags, map("Name", format(var.hostname_format, (count.index + 1), var.location, var.name_prefix),
+                                "Cluster", var.name_prefix))}"
 }
 
 resource "azurerm_network_security_rule" "master-sshRule" {
-  count                       = "${dcos_role == "master" ? 1 : 0 }"
+  count                       = "${var.dcos_role == "master" ? 1 : 0 }"
   name                        = "sshRule"
   priority                    = 100
   direction                   = "Inbound"
@@ -22,12 +20,12 @@ resource "azurerm_network_security_rule" "master-sshRule" {
   destination_port_range      = "22"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
-  resource_group_name         = "${azurerm_resource_group.dcos.name}"
-  network_security_group_name = "${azurerm_network_security_group.master_security_group.name}"
+  resource_group_name         = "${var.resource_group_name}"
+  network_security_group_name = "${azurerm_network_security_group.master.name}"
 }
 
 resource "azurerm_network_security_rule" "master-httpRule" {
-  count                       = "${dcos_role == "master" ? 1 : 0 }"
+  count                       = "${var.dcos_role == "master" ? 1 : 0 }"
   name                        = "HTTP"
   priority                    = 110
   direction                   = "Inbound"
@@ -37,12 +35,12 @@ resource "azurerm_network_security_rule" "master-httpRule" {
   destination_port_range      = "80"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
-  resource_group_name         = "${azurerm_resource_group.dcos.name}"
-  network_security_group_name = "${azurerm_network_security_group.master_security_group.name}"
+  resource_group_name         = "${var.resource_group_name}"
+  network_security_group_name = "${azurerm_network_security_group.master.name}"
 }
 
 resource "azurerm_network_security_rule" "master-httpsRule" {
-  count                       = "${dcos_role == "master" ? 1 : 0 }"
+  count                       = "${var.dcos_role == "master" ? 1 : 0 }"
   name                        = "HTTPS"
   priority                    = 120
   direction                   = "Inbound"
@@ -52,12 +50,12 @@ resource "azurerm_network_security_rule" "master-httpsRule" {
   destination_port_range      = "443"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
-  resource_group_name         = "${azurerm_resource_group.dcos.name}"
-  network_security_group_name = "${azurerm_network_security_group.master_security_group.name}"
+  resource_group_name         = "${var.resource_group_name}"
+  network_security_group_name = "${azurerm_network_security_group.master.name}"
 }
 
 resource "azurerm_network_security_rule" "master-ZooKeeperRule" {
-  count                       = "${dcos_role == "master" ? 1 : 0 }"
+  count                       = "${var.dcos_role == "master" ? 1 : 0 }"
   name                        = "ZooKeeper"
   priority                    = 130
   direction                   = "Inbound"
@@ -67,12 +65,12 @@ resource "azurerm_network_security_rule" "master-ZooKeeperRule" {
   destination_port_range      = "2181"
   source_address_prefix       = "VirtualNetwork"
   destination_address_prefix  = "*"
-  resource_group_name         = "${azurerm_resource_group.dcos.name}"
-  network_security_group_name = "${azurerm_network_security_group.master_security_group.name}"
+  resource_group_name         = "${var.resource_group_name}"
+  network_security_group_name = "${azurerm_network_security_group.master.name}"
 }
 
 resource "azurerm_network_security_rule" "master-ExhibitorRule" {
-  count                       = "${dcos_role == "master" ? 1 : 0 }"
+  count                       = "${var.dcos_role == "master" ? 1 : 0 }"
   name                        = "Exhibitor"
   priority                    = 140
   direction                   = "Inbound"
@@ -82,12 +80,12 @@ resource "azurerm_network_security_rule" "master-ExhibitorRule" {
   destination_port_range      = "8181"
   source_address_prefix       = "VirtualNetwork"
   destination_address_prefix  = "*"
-  resource_group_name         = "${azurerm_resource_group.dcos.name}"
-  network_security_group_name = "${azurerm_network_security_group.master_security_group.name}"
+  resource_group_name         = "${var.resource_group_name}"
+  network_security_group_name = "${azurerm_network_security_group.master.name}"
 }
 
 resource "azurerm_network_security_rule" "master-MarathonRule" {
-  count                       = "${dcos_role == "master" ? 1 : 0 }"
+  count                       = "${var.dcos_role == "master" ? 1 : 0 }"
   name                        = "Marathon"
   priority                    = 150
   direction                   = "Inbound"
@@ -97,12 +95,12 @@ resource "azurerm_network_security_rule" "master-MarathonRule" {
   destination_port_range      = "8080"
   source_address_prefix       = "VirtualNetwork"
   destination_address_prefix  = "*"
-  resource_group_name         = "${azurerm_resource_group.dcos.name}"
-  network_security_group_name = "${azurerm_network_security_group.master_security_group.name}"
+  resource_group_name         = "${var.resource_group_name}"
+  network_security_group_name = "${azurerm_network_security_group.master.name}"
 }
 
 resource "azurerm_network_security_rule" "master-internalEverything" {
-  count                       = "${dcos_role == "master" ? 1 : 0 }"
+  count                       = "${var.dcos_role == "master" ? 1 : 0 }"
   name                        = "allOtherInternalTraffric"
   priority                    = 160
   direction                   = "Inbound"
@@ -112,12 +110,12 @@ resource "azurerm_network_security_rule" "master-internalEverything" {
   destination_port_range      = "*"
   source_address_prefix       = "VirtualNetwork"
   destination_address_prefix  = "*"
-  resource_group_name         = "${azurerm_resource_group.dcos.name}"
-  network_security_group_name = "${azurerm_network_security_group.master_security_group.name}"
+  resource_group_name         = "${var.resource_group_name}"
+  network_security_group_name = "${azurerm_network_security_group.master.name}"
 }
 
 resource "azurerm_network_security_rule" "master-everythingElseOutBound" {
-  count                       = "${dcos_role == "master" ? 1 : 0 }"
+  count                       = "${var.dcos_role == "master" ? 1 : 0 }"
   name                        = "allOtherTrafficOutboundRule"
   priority                    = 170
   direction                   = "Outbound"
@@ -127,8 +125,8 @@ resource "azurerm_network_security_rule" "master-everythingElseOutBound" {
   destination_port_range      = "*"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
-  resource_group_name         = "${azurerm_resource_group.dcos.name}"
-  network_security_group_name = "${azurerm_network_security_group.master_security_group.name}"
+  resource_group_name         = "${var.resource_group_name}"
+  network_security_group_name = "${azurerm_network_security_group.master.name}"
 }
 
 # End of Master NIC Security Group
