@@ -9,9 +9,6 @@ variable "hostname_format" {
 # Name of the azure resource group
 variable "resource_group_name" {}
 
-# Security Group Id
-variable "network_security_group_id" {}
-
 # Specify dcos role for nsg configuration
 variable "dcos_role" {}
 
