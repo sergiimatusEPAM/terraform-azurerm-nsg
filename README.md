@@ -1,4 +1,5 @@
-# azurerm nsg 
+[![Build Status](https://jenkins-terraform.mesosphere.com/service/dcos-terraform-jenkins/job/dcos-terraform/job/terraform-azurerm-nsg/job/master/badge/icon)](https://jenkins-terraform.mesosphere.com/service/dcos-terraform-jenkins/job/dcos-terraform/job/terraform-azurerm-nsg/job/master/)
+# azurerm nsg
 The module creates DC/OS Network Security Groups per DC/OS role on AzureRM.
 
 
@@ -6,15 +7,17 @@ The module creates DC/OS Network Security Groups per DC/OS role on AzureRM.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| dcos_role | Specify dcos role for nsg configuration | string | - | yes |
-| hostname_format | Format the hostname inputs are index+1, region, name_prefix | string | `nsg-%[1]d-%[2]s` | no |
-| location | Location (region) | string | - | yes |
+| dcos_role | dcos role | string | - | yes |
+| hostname_format | Format the hostname inputs are index+1, region, cluster_name | string | `nsg-%[1]d-%[2]s` | no |
+| location | location | string | - | yes |
 | name_prefix | Cluster Name | string | - | yes |
-| resource_group_name | Name of the azure resource group | string | - | yes |
-| tags | Add special tags to the resources created by this module | map | `<map>` | no |
+| resource_group_name | resource group name | string | - | yes |
+| tags | Add custom tags to all resources | map | `<map>` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| nsg_name |  |
+| nsg_id | Network Security Group ID |
+| nsg_name | Network Security Group Name |
+
