@@ -1,5 +1,6 @@
 # Network Security Group Name
 output "nsg_name" {
+  description = "nsg name"
   value = "${element(concat(azurerm_network_security_group.bootstrap.*.name,
                             azurerm_network_security_group.master.*.name,
                             azurerm_network_security_group.agent.*.name,
@@ -10,6 +11,7 @@ output "nsg_name" {
 
 # Network Security Group ID
 output "nsg_id" {
+  description = "nsg id"
   value = "${element(concat(azurerm_network_security_group.bootstrap.*.id,
                             azurerm_network_security_group.master.*.id,
                             azurerm_network_security_group.agent.*.id,
