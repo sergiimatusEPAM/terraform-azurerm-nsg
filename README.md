@@ -3,6 +3,20 @@
 The module creates DC/OS Network Security Groups per DC/OS role on AzureRM.
 
 
+## EXAMPLE
+
+```hcl
+module "dcos-security-groups" {
+  source  = "dcos-terraform/nsg/azurerm"
+  version = "~> 0.1"
+
+  dcos_role = "master"
+  resource_group_name = "test"
+  location = "West US"
+}
+```
+
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
