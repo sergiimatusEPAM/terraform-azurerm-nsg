@@ -48,7 +48,7 @@ resource "azurerm_network_security_group" "masters" {
     source_port_range            = "*"
     destination_port_range       = "*"
     source_address_prefixes      = ["${var.subnet_range}"]
-    destination_address_prefixes = ["${var.admin_ips}"]
+    destination_address_prefixes = ["${var.subnet_range}"]
   }
 
   security_rule {
@@ -64,51 +64,51 @@ resource "azurerm_network_security_group" "masters" {
   }
 
   security_rule {
-    name                         = "httpRule"
-    priority                     = 110
-    direction                    = "Inbound"
-    access                       = "Allow"
-    protocol                     = "Tcp"
-    source_port_range            = "*"
-    destination_port_range       = "80"
-    source_address_prefix        = "*"
-    destination_address_prefixes = ["${var.admin_ips}"]
+    name                       = "httpRule"
+    priority                   = 110
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "80"
+    destination_address_prefix = "*"
+    source_address_prefixes    = ["${var.admin_ips}"]
   }
 
   security_rule {
-    name                         = "httpsRule"
-    priority                     = 111
-    direction                    = "Inbound"
-    access                       = "Allow"
-    protocol                     = "Tcp"
-    source_port_range            = "*"
-    destination_port_range       = "443"
-    source_address_prefix        = "*"
-    destination_address_prefixes = ["${var.admin_ips}"]
+    name                       = "httpsRule"
+    priority                   = 111
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "443"
+    destination_address_prefix = "*"
+    source_address_prefixes    = ["${var.admin_ips}"]
   }
 
   security_rule {
-    name                         = "8080Rule"
-    priority                     = 150
-    direction                    = "Inbound"
-    access                       = "Allow"
-    protocol                     = "Tcp"
-    source_port_range            = "*"
-    destination_port_range       = "8181"
-    source_address_prefix        = "*"
-    destination_address_prefixes = ["${var.admin_ips}"]
+    name                       = "8080Rule"
+    priority                   = 150
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "8181"
+    destination_address_prefix = "*"
+    source_address_prefixes    = ["${var.admin_ips}"]
   }
 
   security_rule {
-    name                         = "9090Rule"
-    priority                     = 160
-    direction                    = "Inbound"
-    access                       = "Allow"
-    protocol                     = "Tcp"
-    source_port_range            = "*"
-    destination_port_range       = "9090"
-    source_address_prefix        = "*"
-    destination_address_prefixes = ["${var.admin_ips}"]
+    name                       = "9090Rule"
+    priority                   = 160
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "9090"
+    destination_address_prefix = "*"
+    source_address_prefixes    = ["${var.admin_ips}"]
   }
 
   tags = "${merge(var.tags, map("Name", format(var.hostname_format, (count.index + 1), var.location, var.cluster_name),
@@ -234,7 +234,7 @@ resource "azurerm_network_security_group" "private_agents" {
     source_port_range            = "*"
     destination_port_range       = "*"
     source_address_prefixes      = ["${var.subnet_range}"]
-    destination_address_prefixes = ["${var.admin_ips}"]
+    destination_address_prefixes = ["${var.subnet_range}"]
   }
 
   security_rule {
@@ -279,7 +279,7 @@ resource "azurerm_network_security_group" "bootstrap" {
     source_port_range            = "*"
     destination_port_range       = "*"
     source_address_prefixes      = ["${var.subnet_range}"]
-    destination_address_prefixes = ["${var.admin_ips}"]
+    destination_address_prefixes = ["${var.subnet_range}"]
   }
 
   security_rule {
