@@ -1,23 +1,52 @@
 # Network Security Group Name
-output "nsg_name" {
+output "bootstrap.nsg_name" {
   description = "nsg name"
 
-  value = "${element(concat(azurerm_network_security_group.bootstrap.*.name,
-                            azurerm_network_security_group.master.*.name,
-                            azurerm_network_security_group.agent.*.name,
-                            azurerm_network_security_group.public_agent.*.name,
-                            azurerm_network_security_group.vnet_public_subnet.*.name,
-                            list("")), 0)}"
+  value = "${azurerm_network_security_group.bootstrap.name}"
 }
 
 # Network Security Group ID
-output "nsg_id" {
+output "bootstrap.nsg_id" {
   description = "nsg id"
 
-  value = "${element(concat(azurerm_network_security_group.bootstrap.*.id,
-                            azurerm_network_security_group.master.*.id,
-                            azurerm_network_security_group.agent.*.id,
-                            azurerm_network_security_group.public_agent.*.id,
-                            azurerm_network_security_group.vnet_public_subnet.*.id,
-                            list("")), 0)}"
+  value = "${azurerm_network_security_group.bootstrap.id}"
+}
+
+output "masters.nsg_name" {
+  description = "nsg name"
+
+  value = "${azurerm_network_security_group.masters.name}"
+}
+
+# Network Security Group ID
+output "masters.nsg_id" {
+  description = "nsg id"
+
+  value = "${azurerm_network_security_group.masters.id}"
+}
+
+output "private_agents.nsg_name" {
+  description = "nsg name"
+
+  value = "${azurerm_network_security_group.private_agents.name}"
+}
+
+# Network Security Group ID
+output "private_agents.nsg_id" {
+  description = "nsg id"
+
+  value = "${azurerm_network_security_group.private_agents.id}"
+}
+
+output "public_agents.nsg_name" {
+  description = "nsg name"
+
+  value = "${azurerm_network_security_group.public_agents.name}"
+}
+
+# Network Security Group ID
+output "public_agents.nsg_id" {
+  description = "nsg id"
+
+  value = "${azurerm_network_security_group.public_agents.id}"
 }

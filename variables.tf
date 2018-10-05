@@ -1,5 +1,5 @@
 # Cluster Name
-variable "name_prefix" {
+variable "cluster_name" {
   description = "Cluster Name"
 }
 
@@ -14,11 +14,6 @@ variable "resource_group_name" {
   description = "resource group name"
 }
 
-# Specify dcos role for nsg configuration
-variable "dcos_role" {
-  description = "dcos role"
-}
-
 # Location (region)
 variable "location" {
   description = "location"
@@ -29,4 +24,19 @@ variable "tags" {
   description = "Add custom tags to all resources"
   type        = "map"
   default     = {}
+}
+
+variable "admin_ips" {
+  description = "List of CIDR admin IPs"
+  type        = "list"
+}
+
+variable "public_agents_ips" {
+  description = "List of ips allowed access to public agents. admin_ips are joined to this list"
+  type        = "list"
+  default     = ["0.0.0.0/0"]
+}
+
+variable "subnet_range" {
+  description = "Private IP space to be used in CIDR format"
 }
