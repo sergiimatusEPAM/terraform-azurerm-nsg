@@ -27,7 +27,7 @@ locals {
 }
 
 resource "azurerm_network_security_group" "masters" {
-  name                = "dcos-${var.cluster_name}-masters-firewall"
+  name                = "dcos-${var.cluster_name}-masters"
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
 
@@ -259,7 +259,7 @@ resource "azurerm_network_security_group" "private_agents" {
 }
 
 resource "azurerm_network_security_group" "bootstrap" {
-  name                = "dcos-${var.cluster_name}-private-agents"
+  name                = "dcos-${var.cluster_name}-bootstrap"
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
 
