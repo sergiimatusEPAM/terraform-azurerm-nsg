@@ -37,6 +37,12 @@ variable "public_agents_ips" {
   default     = ["0.0.0.0/0"]
 }
 
+variable "public_agents_additional_ports" {
+  description = "List of additional ports allowed for public access on public agents (80 and 443 open by default)"
+  type        = "list"
+  default     = []
+}
+
 variable "subnet_range" {
   description = "Private IP space to be used in CIDR format"
 }

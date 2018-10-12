@@ -27,6 +27,7 @@ module "dcos-security-groups" {
 | cluster_name | Cluster Name | string | - | yes |
 | hostname_format | Format the hostname inputs are index+1, region, cluster_name | string | `nsg-%[1]d-%[2]s` | no |
 | location | location | string | - | yes |
+| public_agents_additional_ports | List of additional ports allowed for public access on public agents (80 and 443 open by default) | list | `<list>` | no |
 | public_agents_ips | List of ips allowed access to public agents. admin_ips are joined to this list | list | `<list>` | no |
 | resource_group_name | resource group name | string | - | yes |
 | subnet_range | Private IP space to be used in CIDR format | string | - | yes |

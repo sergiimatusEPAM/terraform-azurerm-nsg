@@ -208,6 +208,21 @@ resource "azurerm_network_security_group" "public_agents" {
                                 "Cluster", var.cluster_name))}"
 }
 
+resource "azurerm_network_security_rule" "additional_rules" {
+  count                       = "${length(var.public_agents_additional_ports)}"
+  name                        = "publicagentadditional${count.index}"
+  priority                    = "${150 + count.index}"
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "${element(var.public_agents_additional_ports, count.index)}"
+  source_address_prefixes     = ["${var.public_agents_ips}"]
+  destination_address_prefix  = "*"
+  resource_group_name         = "${var.resource_group_name}"
+  network_security_group_name = "${azurerm_network_security_group.public_agents.name}"
+}
+
 resource "azurerm_network_security_group" "private_agents" {
   name                = "dcos-${var.cluster_name}-private-agents"
   location            = "${var.location}"
