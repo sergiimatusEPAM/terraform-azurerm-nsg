@@ -24,7 +24,7 @@ module "dcos-security-groups" {
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | admin_ips | List of CIDR admin IPs | list | - | yes |
-| cluster_name | cluster_name | string | - | yes |
+| cluster_name | Name of the DC/OS cluster | string | - | yes |
 | hostname_format | Format the hostname inputs are index+1, region, cluster_name | string | `nsg-%[1]d-%[2]s` | no |
 | location | Azure Region | string | - | yes |
 | public_agents_additional_ports | List of additional ports allowed for public access on public agents (80 and 443 open by default) | list | `<list>` | no |
