@@ -24,12 +24,12 @@ module "dcos-security-groups" {
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | admin_ips | List of CIDR admin IPs | list | - | yes |
-| cluster_name | Cluster Name | string | - | yes |
+| cluster_name | cluster_name | string | - | yes |
 | hostname_format | Format the hostname inputs are index+1, region, cluster_name | string | `nsg-%[1]d-%[2]s` | no |
-| location | location | string | - | yes |
+| location | Azure Region | string | - | yes |
 | public_agents_additional_ports | List of additional ports allowed for public access on public agents (80 and 443 open by default) | list | `<list>` | no |
 | public_agents_ips | List of ips allowed access to public agents. admin_ips are joined to this list | list | `<list>` | no |
-| resource_group_name | resource group name | string | - | yes |
+| resource_group_name | Name of the azure resource group | string | - | yes |
 | subnet_range | Private IP space to be used in CIDR format | string | - | yes |
 | tags | Add custom tags to all resources | map | `<map>` | no |
 
@@ -37,12 +37,12 @@ module "dcos-security-groups" {
 
 | Name | Description |
 |------|-------------|
-| bootstrap.nsg_id | Network Security Group ID |
-| bootstrap.nsg_name | Network Security Group Name |
-| masters.nsg_id | Network Security Group ID |
+| bootstrap.nsg_id | nsg id |
+| bootstrap.nsg_name | nsg name |
+| masters.nsg_id | nsg id |
 | masters.nsg_name | nsg name |
-| private_agents.nsg_id | Network Security Group ID |
+| private_agents.nsg_id | nsg id |
 | private_agents.nsg_name | nsg name |
-| public_agents.nsg_id | Network Security Group ID |
+| public_agents.nsg_id | nsg id |
 | public_agents.nsg_name | nsg name |
 
