@@ -9,7 +9,7 @@ EXAMPLE
 ```hcl
 module "dcos-security-groups" {
   source  = "dcos-terraform/nsg/azurerm"
-  version = "~> 0.1"
+  version = "~> 0.1.0"
 
   resource_group_name = "test"
   location            = "West US"
