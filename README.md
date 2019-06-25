@@ -26,7 +26,7 @@ module "dcos-security-groups" {
 | cluster\_name | Name of the DC/OS cluster | string | n/a | yes |
 | location | Azure Region | string | n/a | yes |
 | resource\_group\_name | Name of the azure resource group | string | n/a | yes |
-| subnet\_range | Private IP space to be used in CIDR format | list | n/a | yes |
+| subnet\_range | Private IP space to be used in CIDR format | string | n/a | yes |
 | hostname\_format | Format the hostname inputs are index+1, region, cluster_name | string | `"nsg-%[1]d-%[2]s"` | no |
 | name\_prefix | Name Prefix | string | `""` | no |
 | public\_agents\_additional\_ports | List of additional ports allowed for public access on public agents (80 and 443 open by default) | list | `<list>` | no |

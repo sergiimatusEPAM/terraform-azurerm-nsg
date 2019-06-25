@@ -45,5 +45,4 @@ variable "public_agents_additional_ports" {
 
 variable "subnet_range" {
   description = "Private IP space to be used in CIDR format"
-  type        = "list"
 }
