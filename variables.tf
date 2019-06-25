@@ -2,6 +2,11 @@ variable "cluster_name" {
   description = "Name of the DC/OS cluster"
 }
 
+variable "name_prefix" {
+  description = "Name Prefix"
+  default     = ""
+}
+
 variable "hostname_format" {
   description = "Format the hostname inputs are index+1, region, cluster_name"
   default     = "nsg-%[1]d-%[2]s"
