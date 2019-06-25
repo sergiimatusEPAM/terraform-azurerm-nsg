@@ -28,6 +28,7 @@ module "dcos-security-groups" {
 | resource\_group\_name | Name of the azure resource group | string | n/a | yes |
 | subnet\_range | Private IP space to be used in CIDR format | string | n/a | yes |
 | hostname\_format | Format the hostname inputs are index+1, region, cluster_name | string | `"nsg-%[1]d-%[2]s"` | no |
+| name\_prefix | Name Prefix | string | `""` | no |
 | public\_agents\_additional\_ports | List of additional ports allowed for public access on public agents (80 and 443 open by default) | list | `<list>` | no |
 | public\_agents\_ips | List of ips allowed access to public agents. admin_ips are joined to this list | list | `<list>` | no |
 | tags | Add custom tags to all resources | map | `<map>` | no |
