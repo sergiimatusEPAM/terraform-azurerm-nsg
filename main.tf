@@ -14,7 +14,7 @@
  *
  *   resource_group_name = "test"
  *   location            = "West US"
- *   subnet_range        = "10.0.10.0/24"
+ *   subnet_range        = ["10.0.10.0/24"]
  *   admin_ips           = ["1.2.3.4/32"]
  * }
  * ```
@@ -51,8 +51,8 @@ resource "azurerm_network_security_group" "masters" {
     protocol                     = "Tcp"
     source_port_range            = "*"
     destination_port_range       = "*"
-    source_address_prefixes      = ["${var.subnet_range}"]
-    destination_address_prefixes = ["${var.subnet_range}"]
+    source_address_prefixes      = "${var.subnet_range}"
+    destination_address_prefixes = "${var.subnet_range}"
   }
 
   security_rule {
@@ -150,8 +150,8 @@ resource "azurerm_network_security_rule" "public_agent_internal" {
   protocol                     = "Tcp"
   source_port_range            = "*"
   destination_port_range       = "*"
-  source_address_prefixes      = ["${var.subnet_range}"]
-  destination_address_prefixes = ["${var.subnet_range}"]
+  source_address_prefixes      = "${var.subnet_range}"
+  destination_address_prefixes = "${var.subnet_range}"
   resource_group_name          = "${var.resource_group_name}"
   network_security_group_name  = "${azurerm_network_security_group.public_agents.name}"
 }
@@ -238,8 +238,8 @@ resource "azurerm_network_security_group" "private_agents" {
     protocol                     = "Tcp"
     source_port_range            = "*"
     destination_port_range       = "*"
-    source_address_prefixes      = ["${var.subnet_range}"]
-    destination_address_prefixes = ["${var.subnet_range}"]
+    source_address_prefixes      = "${var.subnet_range}"
+    destination_address_prefixes = "${var.subnet_range}"
   }
 
   security_rule {
@@ -283,8 +283,8 @@ resource "azurerm_network_security_group" "bootstrap" {
     protocol                     = "Tcp"
     source_port_range            = "*"
     destination_port_range       = "*"
-    source_address_prefixes      = ["${var.subnet_range}"]
-    destination_address_prefixes = ["${var.subnet_range}"]
+    source_address_prefixes      = "${var.subnet_range}"
+    destination_address_prefixes = "${var.subnet_range}"
   }
 
   security_rule {
