@@ -37,12 +37,12 @@ module "dcos-security-groups" {
 
 | Name | Description |
 |------|-------------|
-| bootstrap.nsg\_id | nsg id |
-| bootstrap.nsg\_name | nsg name |
-| masters.nsg\_id | nsg id |
-| masters.nsg\_name | nsg name |
-| private\_agents.nsg\_id | nsg id |
-| private\_agents.nsg\_name | nsg name |
-| public\_agents.nsg\_id | nsg id |
-| public\_agents.nsg\_name | nsg name |
+| bootstrap.nsg\_id | Network security group id of the bootstrap |
+| bootstrap.nsg\_name | Network security group name of the bootstrap |
+| masters.nsg\_id | Network security group id of the masters |
+| masters.nsg\_name | Network security group name of the masters |
+| private\_agents.nsg\_id | Network security group id of the private agents |
+| private\_agents.nsg\_name | Network security group name of the private agents |
+| public\_agents.nsg\_id | Network security group id of the public agents |
+| public\_agents.nsg\_name | Network security group name of the public agents |
 
