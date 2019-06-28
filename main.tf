@@ -27,6 +27,7 @@ locals {
 }
 
 resource "azurerm_network_security_group" "masters" {
+  count               = "${var.num_masters == 0 ? 0 : 1}"
   name                = "dcos-${var.cluster_name}-masters"
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
@@ -120,6 +121,7 @@ resource "azurerm_network_security_group" "masters" {
 }
 
 resource "azurerm_network_security_group" "public_agents" {
+  count               = "${var.num_public_agents == 0 ? 0 : 1}"
   name                = "dcos-${var.cluster_name}-public-agents"
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
@@ -129,6 +131,7 @@ resource "azurerm_network_security_group" "public_agents" {
 }
 
 resource "azurerm_network_security_rule" "public_agent_ssh" {
+  count                       = "${var.num_public_agents == 0 ? 0 : 1}"
   name                        = "sshRule"
   priority                    = 100
   direction                   = "Inbound"
@@ -143,6 +146,7 @@ resource "azurerm_network_security_rule" "public_agent_ssh" {
 }
 
 resource "azurerm_network_security_rule" "public_agent_internal" {
+  count                        = "${var.num_public_agents == 0 ? 0 : 1}"
   name                         = "allowAllInternal"
   priority                     = 101
   direction                    = "Inbound"
@@ -157,6 +161,7 @@ resource "azurerm_network_security_rule" "public_agent_internal" {
 }
 
 resource "azurerm_network_security_rule" "public_agent_out" {
+  count                       = "${var.num_public_agents == 0 ? 0 : 1}"
   name                        = "allowAllOut"
   priority                    = 102
   direction                   = "Outbound"
@@ -171,6 +176,7 @@ resource "azurerm_network_security_rule" "public_agent_out" {
 }
 
 resource "azurerm_network_security_rule" "public_agent_adminHttp" {
+  count                       = "${var.num_public_agents == 0 ? 0 : 1}"
   name                        = "allowHTTPadmin"
   priority                    = 103
   direction                   = "Inbound"
@@ -185,6 +191,7 @@ resource "azurerm_network_security_rule" "public_agent_adminHttp" {
 }
 
 resource "azurerm_network_security_rule" "public_agent_adminHttps" {
+  count                       = "${var.num_public_agents == 0 ? 0 : 1}"
   name                        = "allowHTTPSadmin"
   priority                    = 104
   direction                   = "Inbound"
@@ -214,6 +221,7 @@ resource "azurerm_network_security_rule" "additional_rules" {
 }
 
 resource "azurerm_network_security_group" "private_agents" {
+  count               = "${var.num_private_agents == 0 ? 0 : 1}"
   name                = "dcos-${var.cluster_name}-private-agents"
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
@@ -259,6 +267,7 @@ resource "azurerm_network_security_group" "private_agents" {
 }
 
 resource "azurerm_network_security_group" "bootstrap" {
+  count               = "${var.num_bootstrap == 0 ? 0 : 1}"
   name                = "dcos-${var.cluster_name}-bootstrap"
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"

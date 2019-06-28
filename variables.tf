@@ -46,3 +46,19 @@ variable "public_agents_additional_ports" {
 variable "subnet_range" {
   description = "Private IP space to be used in CIDR format"
 }
+
+variable "num_bootstrap" {
+  description = "Specify the amount of bootstrap. You should have at most 1"
+}
+
+variable "num_masters" {
+  description = "Specify the amount of masters. For redundancy you should have at least 3"
+}
+
+variable "num_private_agents" {
+  description = "Specify the amount of private agents. These agents will provide your main resources"
+}
+
+variable "num_public_agents" {
+  description = "Specify the amount of public agents. These agents will host marathon-lb and edgelb"
+}
