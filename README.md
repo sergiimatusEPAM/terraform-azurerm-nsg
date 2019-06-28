@@ -25,6 +25,10 @@ module "dcos-security-groups" {
 | admin\_ips | List of CIDR admin IPs | list | n/a | yes |
 | cluster\_name | Name of the DC/OS cluster | string | n/a | yes |
 | location | Azure Region | string | n/a | yes |
+| num\_bootstrap | Specify the amount of bootstrap. You should have at most 1 | string | n/a | yes |
+| num\_masters | Specify the amount of masters. For redundancy you should have at least 3 | string | n/a | yes |
+| num\_private\_agents | Specify the amount of private agents. These agents will provide your main resources | string | n/a | yes |
+| num\_public\_agents | Specify the amount of public agents. These agents will host marathon-lb and edgelb | string | n/a | yes |
 | resource\_group\_name | Name of the azure resource group | string | n/a | yes |
 | subnet\_range | Private IP space to be used in CIDR format | string | n/a | yes |
 | hostname\_format | Format the hostname inputs are index+1, region, cluster_name | string | `"nsg-%[1]d-%[2]s"` | no |
