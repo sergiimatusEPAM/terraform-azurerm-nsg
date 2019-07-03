@@ -126,83 +126,68 @@ resource "azurerm_network_security_group" "public_agents" {
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
 
+  security_rule {
+    name                       = "sshRule"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                         = "allowAllInternal"
+    priority                     = 101
+    direction                    = "Inbound"
+    access                       = "Allow"
+    protocol                     = "Tcp"
+    source_port_range            = "*"
+    destination_port_range       = "*"
+    source_address_prefixes      = ["${var.subnet_range}"]
+    destination_address_prefixes = ["${var.subnet_range}"]
+  }
+
+  security_rule {
+    name                       = "allowAllOut"
+    priority                   = 102
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "allowHTTPadmin"
+    priority                   = 103
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "80"
+    source_address_prefixes    = ["${var.admin_ips}"]
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "allowHTTPSadmin"
+    priority                   = 104
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "443"
+    source_address_prefixes    = ["${var.admin_ips}"]
+    destination_address_prefix = "*"
+  }
+
   tags = "${merge(var.tags, map("Name", format(var.hostname_format, (count.index + 1), var.location, var.cluster_name),
                                 "Cluster", var.cluster_name))}"
-}
-
-resource "azurerm_network_security_rule" "public_agent_ssh" {
-  count                       = "${var.num_public_agents == 0 ? 0 : 1}"
-  name                        = "sshRule"
-  priority                    = 100
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "22"
-  source_address_prefix       = "*"
-  destination_address_prefix  = "*"
-  resource_group_name         = "${var.resource_group_name}"
-  network_security_group_name = "${azurerm_network_security_group.public_agents.name}"
-}
-
-resource "azurerm_network_security_rule" "public_agent_internal" {
-  count                        = "${var.num_public_agents == 0 ? 0 : 1}"
-  name                         = "allowAllInternal"
-  priority                     = 101
-  direction                    = "Inbound"
-  access                       = "Allow"
-  protocol                     = "Tcp"
-  source_port_range            = "*"
-  destination_port_range       = "*"
-  source_address_prefixes      = ["${var.subnet_range}"]
-  destination_address_prefixes = ["${var.subnet_range}"]
-  resource_group_name          = "${var.resource_group_name}"
-  network_security_group_name  = "${azurerm_network_security_group.public_agents.name}"
-}
-
-resource "azurerm_network_security_rule" "public_agent_out" {
-  count                       = "${var.num_public_agents == 0 ? 0 : 1}"
-  name                        = "allowAllOut"
-  priority                    = 102
-  direction                   = "Outbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "*"
-  source_address_prefix       = "*"
-  destination_address_prefix  = "*"
-  resource_group_name         = "${var.resource_group_name}"
-  network_security_group_name = "${azurerm_network_security_group.public_agents.name}"
-}
-
-resource "azurerm_network_security_rule" "public_agent_adminHttp" {
-  count                       = "${var.num_public_agents == 0 ? 0 : 1}"
-  name                        = "allowHTTPadmin"
-  priority                    = 103
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "80"
-  source_address_prefixes     = ["${var.admin_ips}"]
-  destination_address_prefix  = "*"
-  resource_group_name         = "${var.resource_group_name}"
-  network_security_group_name = "${azurerm_network_security_group.public_agents.name}"
-}
-
-resource "azurerm_network_security_rule" "public_agent_adminHttps" {
-  count                       = "${var.num_public_agents == 0 ? 0 : 1}"
-  name                        = "allowHTTPSadmin"
-  priority                    = 104
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "443"
-  source_address_prefixes     = ["${var.admin_ips}"]
-  destination_address_prefix  = "*"
-  resource_group_name         = "${var.resource_group_name}"
-  network_security_group_name = "${azurerm_network_security_group.public_agents.name}"
 }
 
 resource "azurerm_network_security_rule" "additional_rules" {
@@ -217,7 +202,7 @@ resource "azurerm_network_security_rule" "additional_rules" {
   source_address_prefixes     = ["${var.public_agents_ips}"]
   destination_address_prefix  = "*"
   resource_group_name         = "${var.resource_group_name}"
-  network_security_group_name = "${azurerm_network_security_group.public_agents.name}"
+  network_security_group_name = "${var.num_public_agents == 0 ? "none" : azurerm_network_security_group.public_agents.name}"
 }
 
 resource "azurerm_network_security_group" "private_agents" {
