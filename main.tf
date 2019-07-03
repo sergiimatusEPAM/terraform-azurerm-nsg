@@ -191,7 +191,7 @@ resource "azurerm_network_security_group" "public_agents" {
 }
 
 resource "azurerm_network_security_rule" "additional_rules" {
-  count                       = "${length(local.public_agents_additional_ports)}"
+  count                       = "${var.num_public_agents == 0 ? 0 : length(local.public_agents_additional_ports)}"
   name                        = "publicagentadditional${count.index}"
   priority                    = "${150 + count.index}"
   direction                   = "Inbound"
