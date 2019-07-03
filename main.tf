@@ -202,7 +202,8 @@ resource "azurerm_network_security_rule" "additional_rules" {
   source_address_prefixes     = ["${var.public_agents_ips}"]
   destination_address_prefix  = "*"
   resource_group_name         = "${var.resource_group_name}"
-  network_security_group_name = "${var.num_public_agents == 0 ? "none" : azurerm_network_security_group.public_agents.name}"
+  network_security_group_name = "${azurerm_network_security_group.public_agents.name}"
+  depends_on                  = ["azurerm_network_security_group.public_agents"]
 }
 
 resource "azurerm_network_security_group" "private_agents" {
