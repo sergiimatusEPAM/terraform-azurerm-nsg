@@ -236,6 +236,45 @@ resource "azurerm_network_security_group" "private_agents" {
     source_address_prefixes      = ["${var.subnet_range}"]
     destination_address_prefixes = ["${var.subnet_range}"]
   }
+  
+  security_rule {
+    name                       = "allowWinRM"
+    description                = "Allow WinRM calls"
+    priority                   = 110
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "5985"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+  
+  security_rule {
+    name                       = "allowWinRM"
+    description                = "Allow WinRM calls"
+    priority                   = 110
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "5986"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "allowRDP"
+    description                = "Allow RDP access"
+    priority                   = 110
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "3389"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
 
   security_rule {
     name                       = "allowAllOut"
@@ -248,7 +287,7 @@ resource "azurerm_network_security_group" "private_agents" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
-
+  
   tags = "${merge(var.tags, map("Name", format(var.hostname_format, (count.index + 1), var.location, var.cluster_name),
                                 "Cluster", var.cluster_name))}"
 }
@@ -298,3 +337,4 @@ resource "azurerm_network_security_group" "bootstrap" {
   tags = "${merge(var.tags, map("Name", format(var.hostname_format, (count.index + 1), var.location, var.cluster_name),
                                 "Cluster", var.cluster_name))}"
 }
+
