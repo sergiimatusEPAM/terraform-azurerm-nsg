@@ -240,7 +240,7 @@ resource "azurerm_network_security_group" "private_agents" {
   security_rule {
     name                       = "allowWinRMHttp"
     description                = "Allow WinRM calls via http"
-    priority                   = 110
+    priority                   = 111
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
@@ -253,7 +253,7 @@ resource "azurerm_network_security_group" "private_agents" {
   security_rule {
     name                       = "allowWinRMHttps"
     description                = "Allow WinRM calls via https"
-    priority                   = 110
+    priority                   = 112
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
